@@ -1,6 +1,7 @@
 package lab2
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 )
@@ -25,12 +26,10 @@ func (ch *ComputeHandler) Compute() error {
 		return computeErr
 	}
 
-	_, writeErr := ch.Output.Write([]float(res))
+	_, writeErr := fmt.Fprintln(ch.Output, res)
 	if writeErr != nil {
 		return writeErr
 	}
-
-	
 
 	return nil
 }
