@@ -25,7 +25,7 @@ func (ch *ComputeHandler) Compute() error {
 		return computeErr
 	}
 
-	_, writeErr := ch.Output.Write([]byte(res))
+	_, writeErr := ch.Output.Write([]float(res))
 	if writeErr != nil {
 		return writeErr
 	}
