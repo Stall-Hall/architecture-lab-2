@@ -46,9 +46,9 @@ func main() {
 		writer = os.Stdout
 	}
 
-	handler := &lab2.ComputeHandler{
-		//Input:  reader,
-		//Output: writer,
+	handler := lab2.ComputeHandler{
+		Input:  reader,
+		Output: writer,
 	}
 	err = handler.Compute()
 	if err != nil {
