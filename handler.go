@@ -20,15 +20,17 @@ func (ch *ComputeHandler) Compute() error {
 
 	e := string(bytes)
 
+	res, computeErr := PostfixExpressionCalculator(e)
+	if computeErr != nil {
+		return computeErr
+	}
+
 	_, writeErr := ch.Output.Write([]byte(res))
 	if writeErr != nil {
 		return writeErr
 	}
 
-	res, computeErr := PostfixExpressionCalculator(e)
-	if computeErr != nil {
-		return computeErr
-	}
+	
 
 	return nil
 }
