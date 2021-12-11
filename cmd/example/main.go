@@ -3,25 +3,55 @@ package main
 import (
 	"flag"
 	"fmt"
-	//lab2 "github.com/roman-mazur/architecture-lab-2"
+	"io"
+	"os"
+	"strings"
+
+	lab2 "github.com/Stall-Hall/architecture-lab-2"
 )
 
 var (
 	inputExpression = flag.String("e", "", "Expression to compute")
-	// TODO: Add other flags support for input and output configuration.
+	inputFile       = flag.String("f", "", "Input file with expression")
+	outputFile      = flag.String("o", "", "Output file for calculation result")
 )
 
 func main() {
 	flag.Parse()
 
-	// TODO: Change this to accept input from the command line arguments as described in the task and
-	//       output the results using the ComputeHandler instance.
-	//       handler := &lab2.ComputeHandler{
-	//           Input: {construct io.Reader according the command line parameters},
-	//           Output: {construct io.Writer according the command line parameters},
-	//       }
-	//       err := handler.Compute()
+	var reader io.Reader
+	var writer io.Writer
+	var err error
 
-	//res, _ := lab2.PrefixToPostfix("+ 2 2")
-	fmt.Println("ok")
+	if *inputFile != "" {
+		reader, err = os.Open(*inputFile)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+			return
+		}
+	} else if *inputExpression != "" {
+		reader = strings.NewReader(*inputExpression)
+	} else {
+		fmt.Fprintln(os.Stderr, "missing expression")
+		return
+	}
+
+	if *outputFile != "" {
+		writer, err = os.Create(*outputFile)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err.Error())
+			return
+		}
+	} else {
+		writer = os.Stdout
+	}
+
+	handler := &lab2.ComputeHandler{
+		//Input:  reader,
+		//Output: writer,
+	}
+	err = handler.Compute()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+	}
 }
