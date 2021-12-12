@@ -19,7 +19,7 @@ func (s *HandlerSuite) TestWrongTypeOfInput(c *C) {
 		Output: bytes.NewBufferString(""),
 	}
 	err := handler.Compute()
-	c.Assert(err.Error(), Equals, "Wrong type of input")
+	c.Assert(err.Error(), Equals, "invalid input expression")
 }
 
 func (s *HandlerSuite) TestWrongNumberOfNumbers(c *C) {
@@ -29,16 +29,16 @@ func (s *HandlerSuite) TestWrongNumberOfNumbers(c *C) {
 	}
 	err := handler.Compute()
 	c.Assert(err.Error(), Equals, 
-	"Wrong number of input numbers im expression")
+	"invalid input expression(missed operator(s))")
 }
 
 func (s *HandlerSuite) TestHandlerComputeInput(c *C) {
+	output := bytes.NewBufferString("")
 	handler := ComputeHandler {
 		Input: strings.NewReader("1 7 +"),
-		Output: bytes.NewBufferString(""),
+		Output: output,
 	}
-	output := bytes.NewBufferString("")
 	err := handler.Compute()
-	c.Assert(err, isNil)
-	c.Assert(output.String(), Equals, "+ 1 7")
+	c.Assert(err,IsNil)
+	c.Assert(output.String(), Equals, "8\n")
 }
