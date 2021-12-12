@@ -29,6 +29,8 @@ func (s *ImplementationSuite) TestTablePostfixExpressionCalculator(c *C){
 		{"2 2 ^ 4 * 10 -",	6.0},
 		{"4 5 + 5 2 - / ",	3.0},
 		{"9 2 * 12 16 + -",	-10.0},
+		{"12 2 + 2 / 2 4 ^ * 10 + 2 - 3 8 ^ +",	6681},
+		{"8 2 + 4 2 ^ - 10 2 / + 102 2 * - 7 +",	-198},
 	}
 	for _, test := range tests{
 		res, err := PostfixExpressionCalculator(test.inputString)
