@@ -2,9 +2,12 @@ package lab2
 
 import (
 	"bytes"
+	"testing"
 	. "gopkg.in/check.v1"
 	"strings"
 )
+
+func TestHandler(t *testing.T) { TestingT(t) }
 
 type HandlerSuite struct{}
 
@@ -16,8 +19,9 @@ func (s *HandlerSuite) TestingUseResultForOutput(c *C) {
 		Input:  strings.NewReader("2 5 -"),
 		Output: output,
 	}
-	_ = handler.Compute()
-	c.Assert(output.String(), Equals, "- 5 2")
+	err := handler.Compute()
+	c.Assert(err, IsNil)
+	c.Assert(output.String(), Equals, "-3\n")
 }
 
 func (s *HandlerSuite) TestingBackError(c *C) {
@@ -26,5 +30,5 @@ func (s *HandlerSuite) TestingBackError(c *C) {
 		Output: bytes.NewBufferString(""),
 	}
 	err := handler.Compute()
-	c.Assert(err.Error(), Equals, "invalid expression")
+	c.Assert(err.Error(), Equals, "invalid input expression")
 }
